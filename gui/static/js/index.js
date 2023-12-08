@@ -3,6 +3,8 @@ new Vue({
     delimiters: ["[[", "]]"], 
     data() {
         return {
+            wsocket_server: "ws://localhost:10003",
+            api_server: "http://127.0.0.1:5000",
             testlist: [
                 {
                     tab_name: "first",
@@ -152,7 +154,7 @@ new Vue({
         },
         connectWS() {
             let _this = this;
-            socket = new WebSocket('ws://localhost:10003')
+            socket = new WebSocket(_this.wsocket_server)
             socket.onopen = function () {
                 // console.log('客户端连接上了服务器');
             }
@@ -229,7 +231,7 @@ new Vue({
         },
         getData() {
             let _this = this;
-            let url = "http://127.0.0.1:5000/api/get-data";
+            let url = `${_this.api_server}/api/get-data`;
             let xhr = new XMLHttpRequest()
             xhr.open("post", url)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -304,7 +306,7 @@ new Vue({
             }
         },
         postData() {
-            let url = "http://127.0.0.1:5000/api/submit";
+            let url = `${this.api_server}/api/submit`;
             let send_data = {
                 "config": {
                     "source": {
@@ -383,7 +385,7 @@ new Vue({
         postStartLive() {
             this.postData()
             this.live_state = 2
-            let url = "http://127.0.0.1:5000/api/start-live";
+            let url = `${this.api_server}/api/start-live`;
             let xhr = new XMLHttpRequest()
             xhr.open("post", url)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -391,7 +393,7 @@ new Vue({
         },
         postStopLive() {
             this.live_state = 3
-            let url = "http://127.0.0.1:5000/api/stop-live";
+            let url = `${this.api_server}/api/stop-live`;
             let xhr = new XMLHttpRequest()
             xhr.open("post", url)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -399,7 +401,7 @@ new Vue({
             
         },
         postControlEyes() {
-            let url = "http://127.0.0.1:5000/api/control-eyes";
+            let url = `${this.api_server}/api/control-eyes`;
             let xhr = new XMLHttpRequest()
             xhr.open("post", url)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -539,7 +541,7 @@ new Vue({
         getMsgList(){
             let _this = this;
             
-            let url = "http://127.0.0.1:5000/api/get-msg";
+            let url = `${_this.api_server}/api/get-msg`;
             let xhr = new XMLHttpRequest()
             xhr.open("post", url)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
